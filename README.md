@@ -1,4 +1,2 @@
 # Poisson_AITV_SaT_SLaT
-Official code for "Efficient Image Segmentation Framework with
-Difference of Anisotropic and Isotropic Total
-Variation for Blur and Poisson Noise Removal".
+Official code for "Difference of Anisotropic and Isotropic TV for Segmentation under Blur and Poisson Noise".
