@@ -14,9 +14,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [result, idx] = Deblur_Poisson_L1mL2_2Stage(f, A, lambda, mu, alpha, beta, k)
 
-    %rescale image
-    f = rescale_image(f);
-
     %obtain size of f
     [m,n] = size(f);
     

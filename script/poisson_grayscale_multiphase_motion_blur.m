@@ -1,40 +1,33 @@
 % This script performs multiphase image segmentation on a brain image
-% corrupted by Poisson noise.
-%Note: results may differ slightly from the publication
+% corrupted by Poisson noise and motion blur.
 
-%% load images
-load('Images/brain_image/result.mat');
-load('Images/brain_image/result2.mat');
-load('Images/brain_image/result3.mat');
-load('Images/brain_image/result4.mat');
-
-images = {};
-images{1} = image1;
-images{2} = image2;
-images{3} = image3;
-images{4} = image4;
+imagefiles = dir('Images/brain_image/*.mat');
+nfiles = length(imagefiles);
 
 %% pick an image and modify
-ii=1;
+ii=12;
 rng(1234);
-cdata = images{ii};
+a = struct2cell(load(strcat('Images/brain_image/',imagefiles(ii).name)));
+cdata = a{1};
 cdata(cdata==0) = 10;
-
-% get ground truth of csf, wm, and gm
+    
 csf_m = double(cdata == 48);
 white_matter_m = double(cdata==154);
 grey_matter_m = double(cdata==106);
 
-% add blur and noise and rescale
+
+
 g=fspecial('motion', 5, 225);
 cdata_blurry = myconv(cdata, g);
-cdata_noisy = poissrnd(double(cdata_blurry)/2);
+
+cdata_noisy = poissrnd(double(cdata_blurry/8));
 cdata_noisy = cdata_noisy/max(cdata_noisy(:));
+
 
 %% Segment
 
 % perform AITV Poisson SaT
-[~, idx] = Deblur_Poisson_L1mL2_2Stage(cdata_noisy, g, 20.0, 1.0, 0.6, 1, 4);
+[~, idx] = Deblur_Poisson_L1mL2_2Stage(cdata_noisy, g, 5, 1, 0.7, 1, 4);
 
 % compute dice for each region
 [l1l2_csf_dice, csf_idx] = max([dice(double(idx==1), double(csf_m)), dice(double(idx==2), double(csf_m)), ...
@@ -50,11 +43,7 @@ l1l2_recon_image(idx == csf_idx) = 48;
 l1l2_recon_image(idx == wm_idx) = 154;
 l1l2_recon_image(idx == gm_idx) = 106;
 
-% compute psnr
-l1l2_psnr = psnr(double(l1l2_recon_image), double(cdata), 154);
-
 %% plot figure
 figure; subplot(1,3,1); imagesc(cdata); axis off; axis image; colormap gray; title('Original');
 subplot(1,3,2); imagesc(cdata_noisy); axis off; axis image; colormap gray; title('Noisy');
 subplot(1,3,3); imagesc(l1l2_recon_image); axis off; axis image; colormap gray; title('Segmentation');
-

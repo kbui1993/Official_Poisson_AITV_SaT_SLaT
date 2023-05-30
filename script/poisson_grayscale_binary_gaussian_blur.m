@@ -1,5 +1,5 @@
 % This script performs binary segmentation on a retina vessel image
-% corrupted by Poisson noise.
+% corrupted by Poisson noise and Gaussian blur.
 
 %% load images
 imagefiles = dir('Images/retina/*.gif');
@@ -7,7 +7,7 @@ nfiles = length(imagefiles);
 
 
 %% Load image and modify
-ii = 2; %pick a number from 1 to 20
+ii = 10; %pick a number from 1 to 20
 
 
 cdata = double(imread(strcat('Images/retina/',imagefiles(ii).name)));
@@ -26,7 +26,7 @@ cdata_noisy = cdata_noisy/max(cdata_noisy(:)); %scale to [0,1]
 
 
 %% run Poisson AITV SaT for binary segmentation
-[~, idx] = Deblur_Poisson_L1mL2_2Stage(cdata_noisy, g, 10, 1, 0.8, 1, 2);
+[~, idx] = Deblur_Poisson_L1mL2_2Stage(cdata_noisy, g, 22.5, 0.25, 0.8, 1, 2);
 [l1ml2_dice, amax] = max([dice(double(idx==1), double(m)), dice(double(idx==2), double(m))], [], 'linear');
 
 figure; subplot(1,3,1); imagesc(cdata); axis off; axis image; colormap gray; title('Original');

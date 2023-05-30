@@ -7,7 +7,7 @@ nfiles = length(imagefiles);
 
 
 %% Load image and modify
-ii = 1; %pick a number from 1 to 20
+ii = 5; %pick a number from 1 to 20
 
 
 cdata = double(imread(strcat('Images/retina/',imagefiles(ii).name)));
@@ -21,7 +21,7 @@ cdata_noisy = cdata_noisy/max(cdata_noisy(:)); %scale to [0,1]
 
 
 %% run Poisson AITV SaT for binary segmentation
-[~, idx] = Poisson_L1mL2_2Stage(cdata_noisy, 6, 5.5, 0.4, 1, 2);
+[~, idx] = Poisson_L1mL2_2Stage(cdata_noisy, 8, 0.5, 0.3, 1, 2);
 [l1ml2_dice, amax] = max([dice(double(idx==1), double(m)), dice(double(idx==2), double(m))], [], 'linear');
 
 figure; subplot(1,3,1); imagesc(cdata); axis off; axis image; colormap gray; title('Original');

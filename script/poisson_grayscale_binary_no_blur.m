@@ -21,7 +21,7 @@ cdata_noisy = cdata_noisy/max(cdata_noisy(:)); %scale to [0,1]
 
 
 %% run Poisson AITV SaT for binary segmentation
-[~, idx] = Poisson_L1mL2_2Stage(cdata_noisy, 10, 6.5, 0.4, 1, 2);
+[~, idx] = Poisson_L1mL2_2Stage(cdata_noisy, 14.5, 0.5, 0.3, 1, 2);
 [l1ml2_dice, amax] = max([dice(double(idx==1), double(m)), dice(double(idx==2), double(m))], [], 'linear');
 
 figure; subplot(1,3,1); imagesc(cdata); axis off; axis image; colormap gray; title('Original');

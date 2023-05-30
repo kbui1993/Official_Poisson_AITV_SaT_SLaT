@@ -12,9 +12,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [result,idx] = Poisson_L1mL2_2Stage(f, lambda, mu, alpha, beta, k)
 
-    %rescale image
-    f = rescale_image(f);
-
     %obtain size of f
     [m,n] = size(f);
     

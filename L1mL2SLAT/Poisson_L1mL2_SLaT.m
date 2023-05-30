@@ -10,8 +10,6 @@
 %   result: segmented result
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [result, idx] = Poisson_L1mL2_SLaT(f, lambda, mu, alpha, k)
-    %rescale image to [0,1]
-    f = rescale_color_image(f);
     
     %preinitialize
     uu = zeros(size(f));
