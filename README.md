@@ -9,7 +9,6 @@ Please the cite the paper if you're using the code.
   author={Bui, Kevin and Lou, Yifei and Park, Fredrick and Xin, Jack},
   journal={Frontiers in Computer Science},
   volume={5},
-  pages={1131317},
   publisher={Frontiers}
 }
 ```
